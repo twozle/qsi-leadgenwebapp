@@ -1,7 +1,7 @@
 import { TierType } from '@/types/results';
 import { getTierInfo } from './tiers';
 
-const DEFAULT_PHONE = '1234567890';
+const DEFAULT_PHONE = '2139075123';
 
 export function generateWhatsAppLink(tier: TierType, masterScore: number, phone: string = DEFAULT_PHONE): string {
   const tierInfo = getTierInfo(tier);
