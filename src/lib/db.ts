@@ -117,7 +117,7 @@ export async function getResultsBySessionId(sessionId: string): Promise<QuizResu
       forecastingPlanning: row.forecasting_planning_score,
       pricingStability: row.pricing_stability_score,
     },
-    recommendations: JSON.parse(row.recommendations),
+    recommendations: row.recommendations,
     businessType: row.business_type,
   };
 }
