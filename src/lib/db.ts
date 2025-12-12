@@ -68,7 +68,7 @@ export async function insertQuizResponse(params: InsertQuizResponseParams): Prom
       recommendations
     ) VALUES (
       ${params.leadId},
-      ${JSON.stringify(params.answers)},
+      ${params.answers},
       ${params.categoryScores.deliveryReliability},
       ${params.categoryScores.qualityConsistency},
       ${params.categoryScores.communicationSupport},
@@ -76,7 +76,7 @@ export async function insertQuizResponse(params: InsertQuizResponseParams): Prom
       ${params.categoryScores.pricingStability},
       ${params.masterScore},
       ${params.tier},
-      ${JSON.stringify(params.recommendations)}
+      ${params.recommendations}
     )
   `;
 }
