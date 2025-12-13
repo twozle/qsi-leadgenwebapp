@@ -43,12 +43,26 @@ Access via Vercel Dashboard → Storage → Neon Database → "Manage Database"
 
 ---
 
-## 📱 WhatsApp Configuration
+## 📱 Contact Methods Configuration
 
+The app now supports dynamic contact methods based on user preference:
+
+### WhatsApp
 **Phone Number**: 213-907-5123 (configured in `src/lib/whatsapp.ts`)
 
-Pre-filled message format:
+### SMS
+**Phone Number**: 626-522-8638 (configured in `src/lib/whatsapp.ts`)
+
+### Email
+**Email Address**: instagram@qsiproduce.com (configured in `src/lib/whatsapp.ts`)
+
+### Phone Call
+**Phone Number**: 626-522-8638 (configured in `src/lib/whatsapp.ts`)
+
+Pre-filled message format (varies by contact method):
 > "Hi, I just completed the Produce Reliability Scorecard and scored [X]/100 ([Tier]). Can you help me improve my supply chain reliability?"
+
+**Implementation**: The `ContactCTA` component dynamically renders the appropriate call-to-action based on the user's selected `preferredContact` method, displaying different button text, descriptions, and deep links (WhatsApp, mailto:, sms:, tel:) accordingly.
 
 ---
 
@@ -67,6 +81,13 @@ Pre-filled message format:
 - Fields: answers (JSONB), category scores (5 fields), master_score, tier, recommendations (JSONB)
 - Foreign key to leads table
 - Indexes on tier, master_score, lead_id
+
+### Database Migrations
+
+**Migration 002 (December 12, 2024)**: Added 'phone' to preferred_contact constraint
+- Location: `migrations/002_add_phone_to_preferred_contact.sql`
+- Purpose: Support Phone Call as a contact method option
+- Status: ✅ Applied to production database
 
 ---
 
@@ -118,6 +139,51 @@ For local development: Already in `.env.local` (gitignored)
 
 ---
 
+## 🆕 Recent Updates (December 12, 2024)
+
+### Dynamic Contact Method Handling
+**Feature**: Users can now choose their preferred contact method and receive a tailored CTA
+- **Options**: WhatsApp, SMS, Email, Phone Call
+- **Implementation**:
+  - Updated `LeadCaptureForm.tsx` to include 'Phone Call' option
+  - Renamed `WhatsAppCTA.tsx` to `ContactCTA.tsx`
+  - Created dynamic component that renders different CTAs based on user preference
+  - Added link generators for all contact methods in `src/lib/whatsapp.ts`
+- **Database Changes**:
+  - Updated `preferred_contact` CHECK constraint to include 'phone'
+  - Applied migration `002_add_phone_to_preferred_contact.sql`
+  - Updated Zod validation schema to include 'phone' option
+  - Updated TypeScript types in `lead.ts` and `results.ts`
+
+### Question 7 Update
+**Change**: Updated Question 7 to focus on same-day delivery capability
+- **Old Text**: "How far in advance do you usually need to place orders?"
+- **New Text**: "How often can you get same-day delivery within 4 hours of placing an order?"
+- **Answer Options**:
+  - Never - not available
+  - Rarely - only in emergencies
+  - Often - when inventory allows
+  - Always - standard offering
+- **File**: `src/lib/questions.ts`
+
+### Business Type Options Update
+**Change**: Updated business type dropdown to better match target audience
+- **New Options**:
+  - Independent Grocery Store
+  - Produce Wholesaler
+  - Food Service
+  - Restaurant
+  - Specialty Retailer
+  - Other
+- **Old Options** (removed):
+  - Small Chain
+  - Food Truck
+- **Files Updated**:
+  - `src/components/quiz/LeadCaptureForm.tsx`
+  - No database schema changes required (uses VARCHAR storage)
+
+---
+
 ## 🐛 Issues Fixed During Setup
 
 ### Issue 1: Double JSON.parse on JSONB fields
@@ -131,6 +197,18 @@ For local development: Already in `.env.local` (gitignored)
 
 ### Issue 3: Neon marketplace vs direct integration
 - **Solution**: Used Neon from Vercel Marketplace (new requirement as of late 2024)
+
+### Issue 4: Database constraint violation for 'phone' contact method (December 12, 2024)
+- **Problem**: Submission failed when user selected "Phone Call" as preferred contact method
+- **Root Cause**: Database CHECK constraint only allowed ('email', 'sms', 'whatsapp')
+- **Fix**: Created and applied migration `002_add_phone_to_preferred_contact.sql`
+- **Additional Files Updated**: `schema.sql` for future deployments
+
+### Issue 5: Zod validation rejection for 'phone' option (December 12, 2024)
+- **Problem**: After database fix, submissions still failed for "Phone Call" option
+- **Root Cause**: Zod schema in `validations.ts` didn't include 'phone' in the enum
+- **Fix**: Updated `preferredContact: z.enum(['email', 'sms', 'whatsapp', 'phone'])`
+- **Additional Files Updated**: TypeScript types in `lead.ts` and `results.ts`
 
 ---
 
@@ -152,6 +230,7 @@ qsi-leadgenwebapp/
 │   │   ├── landing/                # Hero, ValueProps
 │   │   ├── quiz/                   # Quiz flow components
 │   │   ├── results/                # Results display components
+│   │   │   └── ContactCTA.tsx      # Dynamic contact CTA
 │   │   └── ui/                     # Button, Card, Input
 │   ├── lib/
 │   │   ├── db.ts                   # Database functions
@@ -159,9 +238,11 @@ qsi-leadgenwebapp/
 │   │   ├── questions.ts            # 10 quiz questions
 │   │   ├── tiers.ts                # Tier definitions
 │   │   ├── validations.ts          # Zod schemas
-│   │   └── whatsapp.ts             # WhatsApp link generator
+│   │   └── whatsapp.ts             # All contact method link generators
 │   └── types/
 │       ├── quiz.ts, lead.ts, results.ts
+├── migrations/                     # Database migrations
+│   └── 002_add_phone_to_preferred_contact.sql
 ├── public/images/                  # Static assets
 ├── schema.sql                      # Database schema
 ├── masterplan.md                   # Original specification
@@ -211,8 +292,12 @@ vercel --prod
   - [x] Tier badge with color coding
   - [x] Category breakdown (5 categories)
   - [x] Personalized recommendations
-  - [x] WhatsApp CTA button
-- [x] WhatsApp link opens with correct number (213-907-5123)
+  - [x] Dynamic contact CTA button (based on preferred contact method)
+- [x] Contact methods work correctly:
+  - [x] WhatsApp link opens with correct number (213-907-5123)
+  - [x] SMS link works (626-522-8638)
+  - [x] Email link works (instagram@qsiproduce.com)
+  - [x] Phone link works (626-522-8638)
 
 ### Database Verification
 ```sql
@@ -275,8 +360,15 @@ From masterplan.md Phase 4+:
 ### Modify Scoring Logic
 `src/lib/scoring.ts` - Algorithm, tier thresholds, recommendations
 
-### Update WhatsApp Number
-`src/lib/whatsapp.ts` - Line 4: DEFAULT_PHONE
+### Update Contact Information
+`src/lib/whatsapp.ts` - Phone numbers and email address for all contact methods:
+- Line 4: WHATSAPP_PHONE (213-907-5123)
+- Line 5: SMS_PHONE (626-522-8638)
+- Line 6: PHONE_NUMBER (626-522-8638)
+- Line 7: EMAIL (instagram@qsiproduce.com)
+
+### Customize Contact CTAs
+`src/components/results/ContactCTA.tsx` - Button text, descriptions, and behavior for each contact method
 
 ### Adjust Tier Descriptions
 `src/lib/tiers.ts` - Tier names, descriptions, colors
@@ -357,6 +449,13 @@ git push origin main # Push to GitHub
 
 **Production URL**: https://qsi-leadgenwebapp.vercel.app
 
-**Last Updated**: December 12, 2024
+**Last Updated**: December 12, 2024 (evening session)
 **Built By**: Claude Code
 **GitHub**: twozle/qsi-leadgenwebapp
+
+### Recent Session Summary (December 12, 2024)
+- ✅ Implemented dynamic contact method handling (WhatsApp, SMS, Email, Phone)
+- ✅ Updated Question 7 to focus on same-day delivery
+- ✅ Updated Business Type dropdown options
+- ✅ Applied database migration for 'phone' contact option
+- ✅ All changes deployed to production and tested
