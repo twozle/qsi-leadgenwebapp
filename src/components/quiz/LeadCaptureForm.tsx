@@ -101,6 +101,7 @@ export default function LeadCaptureForm({ onSubmit, isLoading }: LeadCaptureForm
             <option value="whatsapp">WhatsApp</option>
             <option value="sms">SMS</option>
             <option value="email">Email</option>
+            <option value="phone">Phone Call</option>
           </select>
         </div>
 

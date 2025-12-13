@@ -86,6 +86,7 @@ export async function getResultsBySessionId(sessionId: string): Promise<QuizResu
     SELECT
       l.session_id,
       l.business_type,
+      l.preferred_contact,
       qr.delivery_reliability_score,
       qr.quality_consistency_score,
       qr.communication_support_score,
@@ -119,5 +120,6 @@ export async function getResultsBySessionId(sessionId: string): Promise<QuizResu
     },
     recommendations: row.recommendations,
     businessType: row.business_type,
+    preferredContact: row.preferred_contact as 'email' | 'sms' | 'whatsapp' | 'phone' | undefined,
   };
 }

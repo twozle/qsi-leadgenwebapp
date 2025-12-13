@@ -1,7 +1,7 @@
 export interface LeadData {
   email?: string;
   phone?: string;
-  preferredContact: 'email' | 'sms' | 'whatsapp';
+  preferredContact: 'email' | 'sms' | 'whatsapp' | 'phone';
   businessType: string;
   weeklySpendRange: string;
   deliveryFrequency: string;

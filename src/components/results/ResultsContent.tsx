@@ -7,7 +7,7 @@ import ScoreDisplay from './ScoreDisplay';
 import TierBadge from './TierBadge';
 import CategoryBreakdown from './CategoryBreakdown';
 import Recommendations from './Recommendations';
-import WhatsAppCTA from './WhatsAppCTA';
+import ContactCTA from './ContactCTA';
 
 export default function ResultsContent() {
   const searchParams = useSearchParams();
@@ -98,7 +98,11 @@ export default function ResultsContent() {
         <Recommendations recommendations={results.recommendations} />
 
         <div className="max-w-3xl mx-auto">
-          <WhatsAppCTA tier={results.tier} masterScore={results.masterScore} />
+          <ContactCTA
+            tier={results.tier}
+            masterScore={results.masterScore}
+            preferredContact={results.preferredContact}
+          />
         </div>
 
         <div className="text-center mt-12">

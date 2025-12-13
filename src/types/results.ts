@@ -9,6 +9,7 @@ export interface QuizResults {
   categoryScores: CategoryScores;
   recommendations: string[];
   businessType?: string;
+  preferredContact?: 'email' | 'sms' | 'whatsapp' | 'phone';
 }
 
 export interface QuizResponse {
