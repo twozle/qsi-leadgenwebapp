@@ -31,7 +31,6 @@ CREATE TABLE IF NOT EXISTS leads (
     user_agent TEXT,
 
     -- Constraints
-    CONSTRAINT unique_email UNIQUE (email),
     CONSTRAINT email_or_phone_required CHECK (email IS NOT NULL OR phone IS NOT NULL)
 );
 
