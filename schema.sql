@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS leads (
     -- Contact Information
     email VARCHAR(255),
     phone VARCHAR(50),
-    preferred_contact VARCHAR(20) CHECK (preferred_contact IN ('email', 'sms', 'whatsapp')),
+    preferred_contact VARCHAR(20) CHECK (preferred_contact IN ('email', 'sms', 'whatsapp', 'phone')),
 
     -- Business Information
     business_type VARCHAR(100),
