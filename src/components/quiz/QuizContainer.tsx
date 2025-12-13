@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 import { quizQuestions } from '@/lib/questions';
 import { QuizAnswers } from '@/types/quiz';
 import { LeadData } from '@/types/lead';
@@ -98,26 +97,8 @@ export default function QuizContainer() {
   const progressCurrent = showLeadCapture ? TOTAL_QUESTIONS : currentQuestionIndex + 1;
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-primary-50 via-white to-earth-50 py-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      {/* Decorative produce images */}
-      <div className="absolute left-0 top-1/4 bottom-1/4 w-32 hidden xl:block opacity-15">
-        <Image
-          src="/images/assorted-produce.jpg"
-          alt=""
-          fill
-          className="object-cover"
-        />
-      </div>
-      <div className="absolute right-0 top-1/3 bottom-1/3 w-32 hidden xl:block opacity-15">
-        <Image
-          src="/images/strawberry-box.jpg"
-          alt=""
-          fill
-          className="object-cover"
-        />
-      </div>
-
-      <div className="max-w-4xl mx-auto relative z-10">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-earth-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-display font-bold text-stone-900 mb-2">
             THE PRODUCE RELIABILITY SCORECARD™
