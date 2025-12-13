@@ -16,7 +16,7 @@ export const quizAnswersSchema = z.object({
 export const leadDataSchema = z.object({
   email: z.string().email().optional().or(z.literal('')),
   phone: z.string().min(10).optional().or(z.literal('')),
-  preferredContact: z.enum(['email', 'sms', 'whatsapp']),
+  preferredContact: z.enum(['email', 'sms', 'whatsapp', 'phone']),
   businessType: z.string().min(1, 'Business type is required'),
   weeklySpendRange: z.string().min(1, 'Weekly spend range is required'),
   deliveryFrequency: z.string().min(1, 'Delivery frequency is required'),
