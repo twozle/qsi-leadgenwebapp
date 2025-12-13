@@ -117,10 +117,10 @@ export default function LeadCaptureForm({ onSubmit, isLoading }: LeadCaptureForm
           >
             <option value="">Select your business type</option>
             <option value="independent_grocery">Independent Grocery Store</option>
-            <option value="small_chain">Small Chain (2-10 locations)</option>
+            <option value="produce_wholesaler">Produce Wholesaler</option>
+            <option value="food_service">Food Service</option>
             <option value="restaurant">Restaurant</option>
-            <option value="food_truck">Food Truck</option>
-            <option value="specialty_retail">Specialty Retailer</option>
+            <option value="specialty_retailer">Specialty Retailer</option>
             <option value="other">Other</option>
           </select>
           {errors.businessType && (
