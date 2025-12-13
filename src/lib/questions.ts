@@ -70,12 +70,12 @@ export const quizQuestions: Question[] = [
   {
     id: 'q7',
     category: 'Forecasting & Planning',
-    text: 'How far in advance can you reliably place orders and expect availability?',
+    text: 'How often can you get same-day delivery within 4 hours of placing an order?',
     options: [
-      { value: 1, label: 'Day-of or same-day only' },
-      { value: 2, label: '1-2 days ahead' },
-      { value: 3, label: '3-5 days ahead' },
-      { value: 4, label: 'A week or more ahead' },
+      { value: 1, label: 'Never - not available' },
+      { value: 2, label: 'Rarely - only in emergencies' },
+      { value: 3, label: 'Often - when inventory allows' },
+      { value: 4, label: 'Always - standard offering' },
     ],
   },
   {
