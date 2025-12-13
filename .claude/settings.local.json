@@ -7,7 +7,19 @@
       "Bash(npm install:*)",
       "Bash(npm run build:*)",
       "Bash(git init:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git branch:*)",
+      "Bash(gh --version:*)",
+      "Bash(vercel env pull:*)",
+      "Bash(vercel link)",
+      "Bash(vercel link:*)",
+      "Bash(vercel logs:*)",
+      "Bash(git push:*)",
+      "Bash(vercel:*)",
+      "WebFetch(domain:unsplash.com)",
+      "Bash(curl:*)",
+      "WebSearch"
     ]
   }
 }

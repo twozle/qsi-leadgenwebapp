@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 import { QuizResults } from '@/types/results';
 import ScoreDisplay from './ScoreDisplay';
 import TierBadge from './TierBadge';
@@ -76,8 +77,26 @@ export default function ResultsContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-earth-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
+    <div className="relative min-h-screen bg-gradient-to-br from-primary-50 via-white to-earth-50 py-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      {/* Decorative produce images */}
+      <div className="absolute left-0 top-0 w-full h-24 opacity-10 hidden md:block">
+        <Image
+          src="/images/processing-facility.jpg"
+          alt=""
+          fill
+          className="object-cover object-center"
+        />
+      </div>
+      <div className="absolute right-0 top-1/4 bottom-1/4 w-40 hidden lg:block opacity-15">
+        <Image
+          src="/images/hero-produce-market.jpg"
+          alt=""
+          fill
+          className="object-cover"
+        />
+      </div>
+
+      <div className="max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-display font-bold text-stone-900 mb-2">
             Your Supply Chain Scorecard

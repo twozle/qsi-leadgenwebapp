@@ -1,10 +1,32 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import Button from '../ui/Button';
 
 export default function Hero() {
   return (
-    <div className="bg-gradient-to-br from-primary-50 via-white to-earth-50 py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto text-center">
+    <div className="relative bg-gradient-to-br from-primary-50 via-white to-earth-50 py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      {/* Decorative produce images on the sides */}
+      <div className="absolute left-0 top-0 bottom-0 w-48 hidden lg:block opacity-20">
+        <Image
+          src="/images/market-display.jpg"
+          alt=""
+          fill
+          className="object-cover"
+          priority
+        />
+      </div>
+      <div className="absolute right-0 top-0 bottom-0 w-48 hidden lg:block opacity-20">
+        <Image
+          src="/images/fruit-baskets.jpg"
+          alt=""
+          fill
+          className="object-cover"
+          priority
+        />
+      </div>
+
+      {/* Content */}
+      <div className="max-w-4xl mx-auto text-center relative z-10">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-stone-900 mb-6">
           Instantly Discover Why Your Produce Supply Is Inconsistent
         </h1>
